@@ -1,8 +1,10 @@
 const gameArea = document.getElementById('gameArea');
 const scoreboard = document.getElementById('scoreboard');
+const onlineCounter = document.getElementById('onlineCounter'); // Новый элемент для отображения игроков онлайн
 const colors = ['red', 'green', 'yellow'];
 let players = {};
 let currentPlayerId = null; // Хранит ID текущего игрока
+let onlinePlayersCount = 0; // Счетчик игроков онлайн
 
 // Функция для создания игрового поля
 function createGrid() {
@@ -27,13 +29,13 @@ function handleCellClick(cell) {
 // Функция для обновления счетчика игроков
 function updateScoreboard() {
     scoreboard.innerHTML = '';
-    // Создаем сортированный массив игроков по убыванию их счетов
     const sortedPlayers = Object.entries(players).sort((a, b) => b[1].score - a[1].score);
     for (const [player, data] of sortedPlayers) {
         const scoreEntry = document.createElement('div');
         scoreEntry.textContent = `${player}: ${data.score}`;
         scoreboard.appendChild(scoreEntry);
     }
+    onlineCounter.textContent = `Игроков онлайн: ${onlinePlayersCount}`; // Обновляем счетчик игроков онлайн
 }
 
 // Запрос имени игрока при входе в игру
@@ -43,6 +45,7 @@ function initializePlayer() {
         const color = colors[Math.floor(Math.random() * colors.length)];
         players[playerId] = { color: color, score: 0 }; // Присваиваем игроку цвет и счет
         currentPlayerId = playerId; // Устанавливаем текущего игрока
+        onlinePlayersCount++; // Увеличиваем количество игроков онлайн
         updateScoreboard(); // Обновляем счетчик
     } else {
         alert("Имя пользователя уже занято или не указано. Попробуйте снова."); // Сообщаем об ошибке
