@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    width: 80vw;
+    height: 80vh;
+}
+
+.scoreboard {
+    width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.game-area {
+    display: grid;
+    grid-template-columns: repeat(100, 20px); /* 100 столбцов по 20px */
+    grid-template-rows: repeat(100, 20px);    /* 100 строк по 20px */
+    width: calc(100% - 200px);
+    height: 100%;
+    background-color: #ccc;
+}
+
+.cell {
+    width: 20px; /* фиксированная ширина ячейки */
+    height: 20px; /* фиксированная высота ячейки */
+    background-color: gray;
+    border: 1px solid #fff; /* белая граница между ячейками для лучшей видимости */
+}
