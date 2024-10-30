@@ -5,6 +5,7 @@ const colors = ['red', 'green', 'yellow'];
 let players = {};
 let currentPlayerId = null; // Хранит ID текущего игрока
 let onlinePlayersCount = 0; // Счетчик игроков онлайн
+let totalColoredCells = 0; // Счетчик раскрашенных пикселей
 
 // Функция для создания игрового поля
 function createGrid() {
@@ -19,14 +20,17 @@ function createGrid() {
 // Функция для обработки клика по ячейке
 function handleCellClick(cell) {
     if (currentPlayerId) {
-        // Изменяем цвет ячейки на цвет текущего игрока
-        cell.style.backgroundColor = players[currentPlayerId].color;
-        players[currentPlayerId].score += 1; // Увеличиваем счет текущего игрока
-        updateScoreboard(); // Обновляем счетчик
+        // Проверяем, раскрашена ли ячейка
+        if (cell.style.backgroundColor === 'gray') {
+            // Изменяем цвет ячейки на цвет текущего игрока
+            cell.style.backgroundColor = players[currentPlayerId].color;
+            totalColoredCells += 1; // Увеличиваем счетчик раскрашенных пикселей
+            updateScoreboard(); // Обновляем счетчик
+        }
     }
 }
 
-// Функция для обновления счетчика игроков
+// Функция для обновления счетчика игроков и раскрашенных пикселей
 function updateScoreboard() {
     scoreboard.innerHTML = '';
     const sortedPlayers = Object.entries(players).sort((a, b) => b[1].score - a[1].score);
@@ -36,6 +40,10 @@ function updateScoreboard() {
         scoreboard.appendChild(scoreEntry);
     }
     onlineCounter.textContent = `Игроков онлайн: ${onlinePlayersCount}`; // Обновляем счетчик игроков онлайн
+    scoreboard.appendChild(document.createElement('hr')); // Разделитель
+    const totalColoredEntry = document.createElement('div');
+    totalColoredEntry.textContent = `Раскрашенные пиксели: ${totalColoredCells}`; // Показываем общее количество раскрашенных пикселей
+    scoreboard.appendChild(totalColoredEntry); // Добавляем к счетчику
 }
 
 // Запрос имени игрока при входе в игру
